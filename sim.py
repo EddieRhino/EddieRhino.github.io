@@ -77,11 +77,12 @@ def play_game(home,away):
     away_int = (float(away_team[0][9]) + float(home_team[3][3]))/2
 
     def pass_play(team,yard,down,togo,time,pct,ypp,inter,sack):
+        #Pass play called
         num1 = random.random()
         num2 = random.random()
         hasball = True
         if(num1*100 <= pct):
-            print("Pass complete\n")
+            # print("Pass complete\n")
             yards = 0
             time -= 40
             if(num2 <= 0.53):
