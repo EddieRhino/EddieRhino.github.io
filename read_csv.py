@@ -20,14 +20,14 @@ with open(filenameRB, 'r') as csvfile:
     for row in csvreader:
         rowsRB.append(row)
 
-filenameWRTE = "WRTE.csv"
-fieldsWRTE = []
-rowsWRTE = []
-with open(filenameWRTE, 'r') as csvfile:
-    csvreader = csv.reader(csvfile)
-    fieldsWRTE = next(csvreader)
-    for row in csvreader:
-        rowsWRTE.append(row)
+# filenameWRTE = "WRTE.csv"
+# fieldsWRTE = []
+# rowsWRTE = []
+# with open(filenameWRTE, 'r') as csvfile:
+#     csvreader = csv.reader(csvfile)
+#     fieldsWRTE = next(csvreader)
+#     for row in csvreader:
+#         rowsWRTE.append(row)
 
 filenameOff = "offense.csv"
 fieldsOff = []

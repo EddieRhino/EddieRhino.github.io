@@ -64,7 +64,10 @@ def play_game(home,away):
         if(rowsRDef[x][0] == away):
             away_team.append(rowsRDef[x])
             break
-
+    if(len(home_team) != 5):
+        print("Problem with home team adding")
+    if(len(away_team) != 5):
+        print("Problem with home team adding")
     home_cpct = (float(home_team[0][4]) + float(away_team[3][1]))/2
     away_cpct = (float(away_team[0][4]) + float(home_team[3][1]))/2
     home_ypp = (float(home_team[0][13]) + float(away_team[3][4]))/2
@@ -85,13 +88,13 @@ def play_game(home,away):
             # print("Pass complete\n")
             yards = 0
             time -= 40
-            if(num2 <= 0.53):
+            if(num2 <= 0.5):
                 yards = random.randint(0,int(ypp))
             elif(num2 < (1-(float(home_team[0][7])/100))):
                 yards = random.randint(int(ypp),30)
             else:
                 yards = random.randint(30,100)
-            print("Gain of", yards, "yards\n")
+            # print("Gain of", yards, "yards\n")
             yard += yards
             togo -= yards
             if(togo <= 0):
@@ -101,29 +104,29 @@ def play_game(home,away):
                 down += 1
         else:
             if(num1 > 1-(inter/100)):
-                print("Pass intercepted\n")
+                # print("Pass intercepted\n")
                 hasball = False
                 time -= 10
                 yard = 100-yard
             elif(num1 > 1-(inter/100)-(sack/100)):
-                print("Sacked")
+                # print("Sacked")
                 yard -= 5
                 down += 1
                 togo += 5
                 time -= 40
             else:
-                print("Pass incomplete\n")
+                # print("Pass incomplete\n")
                 time -= 10
                 down += 1
         return hasball, yard, down, togo, time
 
     def run_play(team,yard,down,togo,time,ypr):
-        print("Run Play")
+        # print("Run Play")
         num1 = random.random()
         num2 = random.random()
         hasball = True
         yards = 0
-        if(num1 <= 0.8):
+        if(num1 <= 0.7):
             yards = random.randint(-1,int(ypr))
             time -= 50
             yard += yards
@@ -135,22 +138,22 @@ def play_game(home,away):
                 down += 1
         else:
             if((int(team[1][8]) < 2) and (num1 >= 0.98)):
-                print("Fumble")
+                # print("Fumble")
                 hasball = False
                 time -= 10
                 yard = 100-yard
             elif((int(team[1][8]) < 4) and (num1 >= 0.96)):
-                print("Fumble")
+                # print("Fumble")
                 hasball = False
                 time -= 10
                 yard = 100-yard
             elif((int(team[1][8]) < 6) and (num1 >= 0.94)):
-                print("Fumble")
+                # print("Fumble")
                 hasball = False
                 time -= 10
                 yard = 100-yard
             elif((int(team[1][8]) >= 6) and (num1 >= 0.92)):
-                print("Fumble")
+                # print("Fumble")
                 hasball = False
                 time -= 10
                 yard = 100-yard
@@ -204,8 +207,8 @@ def play_game(home,away):
             break
         down = 1
         yardsleft = 10
-        print(home, "has the ball\n")
-        print("{minutes}:{seconds} left in the half\n".format(minutes = time_left//60,seconds = time_left%60))
+        # print(home, "has the ball\n")
+        #print("{minutes}:{seconds} left in the half\n".format(minutes = time_left//60,seconds = time_left%60))
 
 
         #HOME TEAM OFFENSE
@@ -220,12 +223,12 @@ def play_game(home,away):
                 break
             if(down == 1 and (100-yardline < yardsleft)):
                 yardsleft = 100-yardline
-            print("Down:", down, "and", yardsleft,"to go.\n")
-            if(yardline > 50):
-                yardline2 = 50-(yardline-50)
-                print("On the opposing", yardline2, "yard line\n")
-            else:
-                print("On own", yardline, "yard line\n")
+            # print("Down:", down, "and", yardsleft,"to go.\n")
+            # if(yardline > 50):
+            #     yardline2 = 50-(yardline-50)
+            #     print("On the opposing", yardline2, "yard line\n")
+            # else:
+            #     print("On own", yardline, "yard line\n")
             num2 = random.random()
             if(time_left <= 10 and yardline >= 60):
                 if(field_goal_attempt(yardline)):
@@ -235,23 +238,23 @@ def play_game(home,away):
                 secondHalf = True
                 break
             elif(down == 4 and yardline >= 60):
-                print("Field Goal attempt\n")
+                # print("Field Goal attempt\n")
                 if(field_goal_attempt(yardline)):
                     home_score += 3
                     yardline = 25
                     time_left -= 5
-                    print("Field Goal made\n")
+                    # print("Field Goal made\n")
                     break
                 else:
                     yardline = 100-yardline
                     time_left -= 5
                     break
 
-                print("SCORE\n",home," ",home_score,"\n",away," ",away_score)
+                # print("SCORE\n",home," ",home_score,"\n",away," ",away_score)
             elif(down == 4):
-                print("Punted\n")
+                # print("Punted\n")
                 time_left -= 10
-                print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
+                # print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
                 yardline = yardline + 50
                 if(yardline >= 100):
                     yardline = 20
@@ -259,7 +262,7 @@ def play_game(home,away):
                     yardline = 100-yardline
                 break
 
-            elif(down == 1 and random.random() < (float(home_team[2][1])-30)/100):
+            elif(down == 1 and random.random() < (float(home_team[2][1])-20)/100):
                 temp = yardline
                 a,yardline,down,yardsleft,time_left = pass_play(home_team,yardline,down,yardsleft,time_left,
                 home_cpct,home_ypp,home_int,home_sack)
@@ -287,7 +290,7 @@ def play_game(home,away):
                 a,yardline,down,yardsleft,time_left = run_play(home_team,yardline,down,yardsleft,time_left,home_ypr)
                 if(a):
                     home_run_yards += (yardline - temp)
-            elif(down == 2 and yardsleft > 3 and random.random() < ((float(home_team[2][1])-15)/100)):
+            elif(down == 2 and yardsleft > 3 and random.random() < ((float(home_team[2][1])-10)/100)):
                 temp = yardline
                 a,yardline,down,yardsleft,time_left = pass_play(home_team,yardline,down,yardsleft,time_left,
                 home_cpct,home_ypp,home_int,home_sack)
@@ -298,7 +301,7 @@ def play_game(home,away):
                 a,yardline,down,yardsleft,time_left = run_play(home_team,yardline,down,yardsleft,time_left,home_ypr)
                 if(a):
                     home_run_yards += (yardline - temp)
-            elif(down == 2 and random.random() < ((float(home_team[2][1])-35)/100)):
+            elif(down == 2 and random.random() < ((float(home_team[2][1])-15)/100)):
                 temp = yardline
                 a,yardline,down,yardsleft,time_left = pass_play(home_team,yardline,down,yardsleft,time_left,
                 home_cpct,home_ypp,home_int,home_sack)
@@ -309,7 +312,7 @@ def play_game(home,away):
                 a,yardline,down,yardsleft,time_left = run_play(home_team,yardline,down,yardsleft,time_left,home_ypr)
                 if(a):
                     home_run_yards += (yardline - temp)
-            elif(down == 3 and yardsleft > 7 and random.random() < ((float(home_team[2][1])+30)/100)):
+            elif(down == 3 and yardsleft > 7 and random.random() < ((float(home_team[2][1])+35)/100)):
                 temp = yardline
                 a,yardline,down,yardsleft,time_left = pass_play(home_team,yardline,down,yardsleft,time_left,
                 home_cpct,home_ypp,home_int,home_sack)
@@ -320,7 +323,7 @@ def play_game(home,away):
                 a,yardline,down,yardsleft,time_left = run_play(home_team,yardline,down,yardsleft,time_left,home_ypr)
                 if(a):
                     home_run_yards += (yardline - temp)
-            elif(down == 3 and yardsleft > 3 and random.random() < ((float(home_team[2][1])+5)/100)):
+            elif(down == 3 and yardsleft > 3 and random.random() < ((float(home_team[2][1])+15)/100)):
                 temp = yardline
                 a,yardline,down,yardsleft,time_left = pass_play(home_team,yardline,down,yardsleft,time_left,
                 home_cpct,home_ypp,home_int,home_sack)
@@ -331,7 +334,7 @@ def play_game(home,away):
                 a,yardline,down,yardsleft,time_left = run_play(home_team,yardline,down,yardsleft,time_left,home_ypr)
                 if(a):
                     home_run_yards += (yardline - temp)
-            elif(down == 3 and random.random() < ((float(home_team[2][1])-20)/100)):
+            elif(down == 3 and random.random() < ((float(home_team[2][1])-7)/100)):
                 temp = yardline
                 a,yardline,down,yardsleft,time_left = pass_play(home_team,yardline,down,yardsleft,time_left,
                 home_cpct,home_ypp,home_int,home_sack)
@@ -349,18 +352,18 @@ def play_game(home,away):
 
 
             if(yardline <= 0):
-                print("Safety")
+                # print("Safety")
                 away_score += 2
                 break
             if(a == False):
-                print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
+                # print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
                 break
             if(yardline >= 100):
-                print("TOUCHDOWN!\n")
+                # print("TOUCHDOWN!\n")
                 home_score += 6
                 if(random.random() <= 0.95):
                     home_score += 1
-                print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
+                # print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
                 yardline = 25
                 break
 
@@ -376,17 +379,17 @@ def play_game(home,away):
         elif(time_left <= 0):
             secondHalf = True
             time_left = 1800
-        print(away, "has the ball\n")
-        print("{minutes}:{seconds} left in the half\n".format(minutes = time_left//60,seconds = time_left%60))
+        # print(away, "has the ball\n")
+        #print("{minutes}:{seconds} left in the half\n".format(minutes = time_left//60,seconds = time_left%60))
         while(True):
             if(down == 1 and (100-yardline < yardsleft)):
                 yardsleft = 100-yardline
-            print("Down:", down, "and", yardsleft,"to go.\n")
-            if(yardline > 50):
-                yardline2 = 50-(yardline-50)
-                print("On the opposing", yardline2, "yard line\n")
-            else:
-                print("On own", yardline, "yard line\n")
+            # print("Down:", down, "and", yardsleft,"to go.\n")
+            # if(yardline > 50):
+            #     yardline2 = 50-(yardline-50)
+            #     print("On the opposing", yardline2, "yard line\n")
+            # else:
+            #     print("On own", yardline, "yard line\n")
             num1 = random.random()
             num2 = random.random()
             if(time_left <= 10 and yardline >= 60):
@@ -397,21 +400,21 @@ def play_game(home,away):
                 secondHalf = True
                 break
             elif(down == 4 and yardline >= 65):
-                print("Field Goal attempt\n")
+                # print("Field Goal attempt\n")
                 if(field_goal_attempt(yardline)):
                     away_score += 3
                     yardline = 25
                     time_left -= 10
-                    print("Field Goal made\n")
+                    # print("Field Goal made\n")
                     break
                 else:
                     yardline = 100-yardline
                     time_left -= 10
                     break
-                print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
+                # print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
             elif(down == 4):
-                print("Punted\n")
-                print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
+                # print("Punted\n")
+                # print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
                 yardline = yardline + 50
                 time_left -= 10
                 if(yardline >= 100):
@@ -419,7 +422,7 @@ def play_game(home,away):
                 else:
                     yardline = 100-yardline
                 break
-            elif(down == 1 and random.random() < (float(away_team[2][1])-30)/100):
+            elif(down == 1 and random.random() < (float(away_team[2][1])-20)/100):
                 temp = yardline
                 a,yardline,down,yardsleft,time_left = pass_play(away_team,yardline,down,yardsleft,time_left,
                 away_cpct,away_ypp,away_int,away_sack)
@@ -447,7 +450,7 @@ def play_game(home,away):
                 a,yardline,down,yardsleft,time_left = run_play(away_team,yardline,down,yardsleft,time_left,away_ypr)
                 if(a):
                     away_run_yards += (yardline - temp)
-            elif(down == 2 and yardsleft > 3 and random.random() < ((float(away_team[2][1])-15)/100)):
+            elif(down == 2 and yardsleft > 3 and random.random() < ((float(away_team[2][1])-10)/100)):
                 temp = yardline
                 a,yardline,down,yardsleft,time_left = pass_play(away_team,yardline,down,yardsleft,time_left,
                 away_cpct,away_ypp,away_int,away_sack)
@@ -458,7 +461,7 @@ def play_game(home,away):
                 a,yardline,down,yardsleft,time_left = run_play(away_team,yardline,down,yardsleft,time_left,away_ypr)
                 if(a):
                     away_run_yards += (yardline - temp)
-            elif(down == 2 and random.random() < ((float(away_team[2][1])-35)/100)):
+            elif(down == 2 and random.random() < ((float(away_team[2][1])-15)/100)):
                 temp = yardline
                 a,yardline,down,yardsleft,time_left = pass_play(away_team,yardline,down,yardsleft,time_left,
                 away_cpct,away_ypp,away_int,away_sack)
@@ -469,7 +472,7 @@ def play_game(home,away):
                 a,yardline,down,yardsleft,time_left = run_play(away_team,yardline,down,yardsleft,time_left,away_ypr)
                 if(a):
                     away_run_yards += (yardline - temp)
-            elif(down == 3 and yardsleft > 7 and random.random() < ((float(away_team[2][1])+30)/100)):
+            elif(down == 3 and yardsleft > 7 and random.random() < ((float(away_team[2][1])+35)/100)):
                 temp = yardline
                 a,yardline,down,yardsleft,time_left = pass_play(away_team,yardline,down,yardsleft,time_left,
                 away_cpct,away_ypp,away_int,away_sack)
@@ -480,7 +483,7 @@ def play_game(home,away):
                 a,yardline,down,yardsleft,time_left = run_play(away_team,yardline,down,yardsleft,time_left,away_ypr)
                 if(a):
                     away_run_yards += (yardline - temp)
-            elif(down == 3 and yardsleft > 3 and random.random() < ((float(away_team[2][1])+5)/100)):
+            elif(down == 3 and yardsleft > 3 and random.random() < ((float(away_team[2][1])+15)/100)):
                 temp = yardline
                 a,yardline,down,yardsleft,time_left = pass_play(away_team,yardline,down,yardsleft,time_left,
                 away_cpct,away_ypp,away_int,away_sack)
@@ -491,7 +494,7 @@ def play_game(home,away):
                 a,yardline,down,yardsleft,time_left = run_play(away_team,yardline,down,yardsleft,time_left,away_ypr)
                 if(a):
                     away_run_yards += (yardline - temp)
-            elif(down == 3 and random.random() < ((float(away_team[2][1])-20)/100)):
+            elif(down == 3 and random.random() < ((float(away_team[2][1])-7)/100)):
                 temp = yardline
                 a,yardline,down,yardsleft,time_left = pass_play(away_team,yardline,down,yardsleft,time_left,
                 away_cpct,away_ypp,away_int,away_sack)
@@ -504,21 +507,21 @@ def play_game(home,away):
                     away_run_yards += (yardline - temp)
 
             if(a == False):
-                print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
+                # print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
                 break
             if(yardline <= 0):
-                print("Safety")
+                # print("Safety")
                 home_score += 2
                 break
             if(yardline >= 100):
-                print("TOUCHDOWN!\n")
+                # print("TOUCHDOWN!\n")
                 away_score += 6
                 if(random.random() <= 0.95):
                     away_score += 1
-                print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
+                # print("SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
                 yardline = 25
                 break
-    print("FINAL SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
+    # print("FINAL SCORE\n",home," ",home_score,"\n",away," ",away_score,"\n")
     return home_score,away_score,home_pass_yards,home_run_yards,away_pass_yards,away_run_yards
 
 def play_many_games(num,spread,home,away,ou):
@@ -541,7 +544,7 @@ def play_many_games(num,spread,home,away,ou):
             num_wins_away += 1
         if(h_score + spread > a_score):
             home_covers += 1
-        elif(h_score + spread > a_score):
+        elif(h_score + spread == a_score):
             pushes += 1
         if(h_score + a_score > ou):
             overs += 1
@@ -569,5 +572,5 @@ def play_many_games(num,spread,home,away,ou):
     elif(count):
         print("\nStay away from this game")
     print()
-    print(scores)
-    print(yards_gained)
+    #print(scores)
+    # print(yards_gained)
