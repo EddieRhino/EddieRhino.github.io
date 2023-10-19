@@ -1,4 +1,5 @@
 from sim import *
+import math
 
 def calc_full_bet(a_ml,h_ml,overs,h_covers,a_covers,num_sims,h_wins,a_wins):
     aml_money = 0
@@ -8,20 +9,20 @@ def calc_full_bet(a_ml,h_ml,overs,h_covers,a_covers,num_sims,h_wins,a_wins):
         aml_money = ((((abs(a_ml)/100)+1)*a_wins)-num_sims)/num_sims
 
     hml_money = 0
-    if(a_ml < 0):
+    if(h_ml < 0):
         hml_money = ((((100/abs(h_ml))+1)*h_wins)-num_sims)/num_sims
     else:
         hml_money = ((((abs(h_ml)/100)+1)*h_wins)-num_sims)/num_sims
 
-    overs_money = overs/num_sims
-    unders_money = (1-overs)/num_sims
-    h_covers_money = (h_covers)/num_sims
-    a_covers_money = (a_covers)/num_sims
+    overs_money = ((overs-(num_sims-overs))/num_sims)
+    unders_money = ((num_sims-overs)-overs)/num_sims
+    h_covers_money = (h_covers-a_covers)/num_sims
+    a_covers_money = (a_covers-h_covers)/num_sims
 
     return [aml_money, hml_money, overs_money, unders_money, h_covers_money, a_covers_money]
 
 
-def play_many_games(num,home,away):
+def play_many_games_b(num,home,away):
     num_wins_home = 0
     num_wins_away = 0
     hpy = 0
@@ -43,7 +44,7 @@ def play_many_games(num,home,away):
     print("Away team wins:", num_wins_away)
     print()
 
-def play_many_games(num,spread,home,away,ou):
+def play_many_games_bb(num,spread,home,away,ou):
     num_wins_home = 0
     num_wins_away = 0
     home_covers = 0
@@ -99,7 +100,7 @@ def play_many_games(num,spread,home,away,ou):
 
 
 
-def play_many_games(num,spread,home,away,ou,risk):
+def play_many_games_bbm(num,spread,home,away,ou,risk):
     num_wins_home = 0
     num_wins_away = 0
     home_covers = 0
@@ -195,7 +196,7 @@ def play_many_games(num,spread,home,away,ou,risk):
 
 
 
-def play_many_games(num,spread,home,away,ou,aml,hml):
+def play_many_games_ab(num,spread,home,away,ou,aml,hml):
     num_wins_home = 0
     num_wins_away = 0
     home_covers = 0
@@ -257,7 +258,7 @@ def play_many_games(num,spread,home,away,ou,aml,hml):
 
 
 
-def play_many_games(num,spread,home,away,ou,risk,aml,hml):
+def play_many_games_abm(num,spread,home,away,ou,risk,aml,hml):
     home_ml = False
     away_ml = False
     num_wins_home = 0
@@ -303,23 +304,22 @@ def play_many_games(num,spread,home,away,ou,risk,aml,hml):
     print("\nOPINION OF THIS SIM:")
 #[aml_money, hml_money, overs_money, unders_money, h_covers_money, a_covers_money]
     sum = 0
-    for x in money_vals:
-        if(x < num*0.1):
-            x = 0
-        sum += x
+    for x in range(len(money_vals)):
+        if(money_vals[x] >= num*0.003):
+            sum += money_vals[x]
     if(sum != 0):
-        if(money_vals[0] != 0):
-            print("\nBet {money:.2f} on away money line".format(money = (risk*(money_vals[0]/sum))))
-        if(money_vals[1] != 0):
-            print("\nBet {money:.2f} on home money line".format(money = (risk*(money_vals[1]/sum))))
-        if(money_vals[2] != 0):
-            print("\nBet {money:.2f} on over".format(money = (risk*(money_vals[2]/sum))))
-        if(money_vals[3] != 0):
-            print("\nBet {money:.2f} on under".format(money = (risk*(money_vals[3]/sum))))
-        if(money_vals[4] != 0):
-            print("\nBet {money:.2f} on home team covering".format(money = (risk*(money_vals[4]/sum))))
-        if(money_vals[5] != 0):
-            print("\nBet {money:.2f} on away team covering".format(money = (risk*(money_vals[5]/sum))))
+        if(money_vals[0] >= num*0.003):
+                print("\nBet {money:.2f} on away money line".format(money = (risk*(money_vals[0]/sum))))
+        if(money_vals[1] >= num*0.003):
+                print("\nBet {money:.2f} on home money line".format(money = (risk*(money_vals[1]/sum))))
+        if(money_vals[2] >= num*0.003):
+                print("\nBet {money:.2f} on over".format(money = (risk*(money_vals[2]/sum))))
+        if(money_vals[3] >= num*0.003):
+                print("\nBet {money:.2f} on under".format(money = (risk*(money_vals[3]/sum))))
+        if(money_vals[4] >= num*0.003):
+                print("\nBet {money:.2f} on home team covering".format(money = (risk*(money_vals[4]/sum))))
+        if(money_vals[5] >= num*0.003):
+                print("\nBet {money:.2f} on away team covering".format(money = (risk*(money_vals[5]/sum))))
     else:
         print("\nReally, you shouldn't bet on this game")
 

@@ -28,9 +28,9 @@ def main():
         spread = float(input("What is the spread relative to the home team? "))
         points = float(input("What is the over/under of the game? "))
         if(money == 0):
-            play_many_games(num_times,spread,team1,team2,points)
+            play_many_games_bb(num_times,spread,team1,team2,points)
         else:
-            play_many_games(num_times,spread,team1,team2,points,money)
+            play_many_games_bbm(num_times,spread,team1,team2,points,money)
     elif(response == "Advanced Betting"):
         money = float(input("How much money do you want to risk? (Enter 0 if you don't want to use this feature): "))
         spread = float(input("What is the spread relative to the home team? "))
@@ -38,11 +38,11 @@ def main():
         a_ml = int(input("What is the moneyline of the away team? "))
         h_ml = int(input("What is the moneyline of the home team? "))
         if(money == 0):
-            play_many_games(num_times,spread,team1,team2,points,a_ml,h_ml)
+            play_many_games_ab(num_times,spread,team1,team2,points,a_ml,h_ml)
         else:
-            play_many_games(num_times,spread,team1,team2,points,money,a_ml,h_ml)
+            play_many_games_abm(num_times,spread,team1,team2,points,money,a_ml,h_ml)
     else:
-        play_many_games(num_times,team1,team2)
+        play_many_games_b(num_times,team1,team2)
 
 
 
