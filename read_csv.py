@@ -55,3 +55,12 @@ with open(filenameRDef, 'r') as csvfile:
     fieldsRDef = next(csvreader)
     for row in csvreader:
         rowsRDef.append(row)
+
+filenameGames = "games.csv"
+fieldsGames = []
+rowsGames = []
+with open(filenameGames, 'r') as csvfile:
+    csvreader = csv.reader(csvfile)
+    fieldsGames = next(csvreader)
+    for row in csvreader:
+        rowsGames.append(row)
